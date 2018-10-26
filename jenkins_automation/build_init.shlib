@@ -1,0 +1,58 @@
+
+function deltaMailAll {
+
+        mail -r "dmsbuild@openbank.com"  -s "Delta files Verification for ${fiid}" ramesh.bollempalli@aciworldwide.com < ${logpath}/tmp
+        mail -r "dmsbuild@openbank.com"  -s "Delta files Verification for ${fiid}" bud.cook@aciworldwide.com < ${logpath}/tmp
+        mail -r "dmsbuild@openbank.com"  -s "Delta files Verification for ${fiid}" Divya.Rajendran@aciworldwide.com < ${logpath}/tmp
+        mail -r "dmsbuild@openbank.com"  -s "Delta files Verification for ${fiid}" charanjeet.singh@aciworldwide.com < ${logpath}/tmp
+        mail -r "dmsbuild@openbank.com"  -s "Delta files Verification for ${fiid}" ray.spiva@aciworldwide.com < ${logpath}/tmp
+        mail -r "dmsbuild@openbank.com"  -s "Delta files Verification for ${fiid}" sharon.telljohn@aciworldwide.com < ${logpath}/tmp
+        mail -r "dmsbuild@openbank.com"  -s "Delta files Verification for ${fiid}" joseph.thompson@aciworldwide.com < ${logpath}/tmp
+
+        mail -r "dmsbuild@openbank.com"  -s "Delta files Verification for ${fiid}" Qamar.Khan@aciworldwide.com < ${logpath}/tmp
+        mail -r "dmsbuild@openbank.com"  -s "Delta files Verification for ${fiid}" Ronald.Henry@aciworldwide.com < ${logpath}/tmp
+        mail -r "dmsbuild@openbank.com"  -s "Delta files Verification for ${fiid}" amit.tarwade@aciworldwide.com < ${logpath}/tmp
+        mail -r "dmsbuild@openbank.com"  -s "Delta files Verification for ${fiid}" pallavi.kulkarni@aciworldwide.com < ${logpath}/tmp
+
+}
+
+function deployMailAll {
+
+	mail -r "dmsbuild@openbank.com"  -s "Deployment Completed for ${fiid} on app server ${srvr}" ramesh.bollempalli@aciworldwide.com < ${logpath}/rndnum
+	mail -r "dmsbuild@openbank.com"  -s "Deployment Completed for ${fiid} on app server ${srvr}" bud.cook@aciworldwide.com < ${logpath}/rndnum
+	mail -r "dmsbuild@openbank.com"  -s "Deployment Completed for ${fiid} on app server ${srvr}" Divya.Rajendran@aciworldwide.com < ${logpath}/rndnum
+	mail -r "dmsbuild@openbank.com"  -s "Deployment Completed for ${fiid} on app server ${srvr}" charanjeet.singh@aciworldwide.com < ${logpath}/rndnum
+	mail -r "dmsbuild@openbank.com"  -s "Deployment Completed for ${fiid} on app server ${srvr}" ray.spiva@aciworldwide.com < ${logpath}/rndnum
+	mail -r "dmsbuild@openbank.com"  -s "Deployment Completed for ${fiid} on app server ${srvr}" sharon.telljohn@aciworldwide.com < ${logpath}/rndnum
+	mail -r "dmsbuild@openbank.com"  -s "Deployment Completed for ${fiid} on app server ${srvr}" joseph.thompson@aciworldwide.com < ${logpath}/rndnum
+
+	mail -r "dmsbuild@openbank.com"  -s "Deployment Completed for ${fiid} on app server ${srvr}" Qamar.Khan@aciworldwide.com < ${logpath}/rndnum
+	mail -r "dmsbuild@openbank.com"  -s "Deployment Completed for ${fiid} on app server ${srvr}" Ronald.Henry@aciworldwide.com < ${logpath}/rndnum
+	mail -r "dmsbuild@openbank.com"  -s "Deployment Completed for ${fiid} on app server ${srvr}" amit.tarwade@aciworldwide.com < ${logpath}/rndnum
+	mail -r "dmsbuild@openbank.com"  -s "Deployment Completed for ${fiid} on app server ${srvr}" pallavi.kulkarni@aciworldwide.com < ${logpath}/rndnum
+}
+
+function fixCrlf {
+
+	find . -name '*.jsp' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.js' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.sql' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.db2' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.xml' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.xsd' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.xmi' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.xsl' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.css' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.htm' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.html' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.pl' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.list' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.txt' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.tag' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.ksh' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.conf' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.rb' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.dtd' -exec perl -i -pe 's/\r//g' {} \;
+	find . -name '*.java' -exec perl -i -pe 's/\r//g' {} \;
+
+}
