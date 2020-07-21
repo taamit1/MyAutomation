@@ -1,0 +1,164 @@
+<<<<<<< HEAD
+pipeline {
+    agent {label 'master'}
+    environment {
+        //ENVIRONMENT set by parametrized choice
+        WEB = "uobmt_prod_rhel_web_ihs"
+        APP = "uobmt_prod_aix_app_was"
+        ACT = "uobmt_prod_aix_app_actuate"
+        JCS = "uobmt_prod_aix_app_jcs"
+        FI_NAME = "fimuob"
+        VARS_FILE = "prod_'$FI_NAME'.yml"
+		LOGLVL = '-vvvv'
+        //BUILD_TYPE set by parametrized choice
+        //BUILD_NAME set by parametrized choice
+        //CR_NUMBER set by parametrized choice
+    }
+
+//Development stage 1 will be done without SSL encryption
+//Devleopment stage 2 will include SSL encryption
+//SSL encryption steps will go here to generate keys before the install
+
+// VRA virtual machine build
+stages {
+    stage('Stage 0 - Vrealize build of server environment ') {
+        steps {
+            echo "Deploying VRealize Core Server Deploy"
+            sh "/usr/bin/ansible-playbook -i environments/poc /usr/local/var/ansible/lfin/uat_dm/tasks/vRealize/playbook.yaml -e send_to -e inv_grp=core_infra -e core_cpu= -e core_ram= core_stg"
+        }
+    }
+
+// TPA Exec Install & Deploy
+    stage('Stage 1 - create tpa and ansible users') { // should be ran for tpa nodes
+        steps {
+            echo "create tpa and ansible users"
+            sh "/usr/bin/ansible-playbook -i environments/poc /tasks/Creat_users/playbook.yaml"
+        }
+    }
+
+    stage('Stage 2 - Download 2ndQuadrant packages') { // should be ran for each nodes
+        steps {
+            echo "Download 2ndQuadrant packages"
+            sh "/files/scripts/download_packages.sh /file/nexus/3.6.2019-12.1-v1-AOD"
+        }
+    }
+    stage('Stage 3 - Install tpaexec') { // should be ran for tpa node
+        steps {
+            echo "Install tpaexec"
+            sh "/opt/2ndQuadrant/TPA/bin/tpaexec setup"
+        }
+    }
+    stage('Stage 4 - Configure MCAS db cluster') { // should be ran for tpa node
+        steps {
+            echo "Configure MCAS db cluster"
+            sh "/files/scripts/configure_cluster.sh mcas"
+        }
+    }
+    stage('Stage 5 - prepare config.yml file, prepare environment, copy hooks') { // should be ran for tpa node
+        steps {
+            echo "prepare config.yml file, prepare environment, copy hooks"
+            sh "/files/scripts/prepare_environment.sh"
+        }
+    }
+    stage('Stage 6 - Provision MCAS db cluster') { // should be ran for tpa node
+        steps {
+            echo "Provision MCAS db cluster"
+            sh "/files/scripts/provision_cluster.sh mcas"
+        }
+    }
+
+    stage('Stage 7 - prepare deploy.yml file') { // should be ran for tpa node
+        steps {
+            echo "prepare deploy.yml file"
+            sh "/files/scripts/prepare_deploy_file.sh"
+        }
+    }
+
+    stage('Stage 8 - Deploy MCAS db cluster') { // should be ran for tpa node
+        steps {
+            echo "Deploy MCAS db cluster"
+            sh "/files/scripts/deploy_cluster.sh mcas"
+        }
+=======
+pipeline {
+    agent {label 'master'}
+    environment {
+        //ENVIRONMENT set by parametrized choice
+        WEB = "uobmt_prod_rhel_web_ihs"
+        APP = "uobmt_prod_aix_app_was"
+        ACT = "uobmt_prod_aix_app_actuate"
+        JCS = "uobmt_prod_aix_app_jcs"
+        FI_NAME = "fimuob"
+        VARS_FILE = "prod_'$FI_NAME'.yml"
+		LOGLVL = '-vvvv'
+        //BUILD_TYPE set by parametrized choice
+        //BUILD_NAME set by parametrized choice
+        //CR_NUMBER set by parametrized choice
+    }
+
+//Development stage 1 will be done without SSL encryption
+//Devleopment stage 2 will include SSL encryption
+//SSL encryption steps will go here to generate keys before the install
+
+// VRA virtual machine build
+stages {
+    stage('Stage 0 - Vrealize build of server environment ') {
+        steps {
+            echo "Deploying VRealize Core Server Deploy"
+            sh "/usr/bin/ansible-playbook -i environments/poc /usr/local/var/ansible/lfin/uat_dm/tasks/vRealize/playbook.yaml -e send_to -e inv_grp=core_infra -e core_cpu= -e core_ram= core_stg"
+        }
+    }
+
+// TPA Exec Install & Deploy
+    stage('Stage 1 - create tpa and ansible users') { // should be ran for tpa nodes
+        steps {
+            echo "create tpa and ansible users"
+            sh "/usr/bin/ansible-playbook -i environments/poc /tasks/Creat_users/playbook.yaml"
+        }
+    }
+
+    stage('Stage 2 - Download 2ndQuadrant packages') { // should be ran for each nodes
+        steps {
+            echo "Download 2ndQuadrant packages"
+            sh "/files/scripts/download_packages.sh /file/nexus/3.6.2019-12.1-v1-AOD"
+        }
+    }
+    stage('Stage 3 - Install tpaexec') { // should be ran for tpa node
+        steps {
+            echo "Install tpaexec"
+            sh "/opt/2ndQuadrant/TPA/bin/tpaexec setup"
+        }
+    }
+    stage('Stage 4 - Configure MCAS db cluster') { // should be ran for tpa node
+        steps {
+            echo "Configure MCAS db cluster"
+            sh "/files/scripts/configure_cluster.sh mcas"
+        }
+    }
+    stage('Stage 5 - prepare config.yml file, prepare environment, copy hooks') { // should be ran for tpa node
+        steps {
+            echo "prepare config.yml file, prepare environment, copy hooks"
+            sh "/files/scripts/prepare_environment.sh"
+        }
+    }
+    stage('Stage 6 - Provision MCAS db cluster') { // should be ran for tpa node
+        steps {
+            echo "Provision MCAS db cluster"
+            sh "/files/scripts/provision_cluster.sh mcas"
+        }
+    }
+
+    stage('Stage 7 - prepare deploy.yml file') { // should be ran for tpa node
+        steps {
+            echo "prepare deploy.yml file"
+            sh "/files/scripts/prepare_deploy_file.sh"
+        }
+    }
+
+    stage('Stage 8 - Deploy MCAS db cluster') { // should be ran for tpa node
+        steps {
+            echo "Deploy MCAS db cluster"
+            sh "/files/scripts/deploy_cluster.sh mcas"
+        }
+>>>>>>> 6b01344cade096ba5dd26cfe3d741e0b5c7dfd2b
+   }
