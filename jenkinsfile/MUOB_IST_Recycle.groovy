@@ -3,20 +3,20 @@
 pipeline {
     agent {label 'nxuatanssrv01'}
     environment {
-		ANSIBLE_CONFIG = "/apps/ansible_pdansible/ansible.cfg"
+        ANSIBLE_CONFIG = "/apps/ansible_pdansible/ansible.cfg"
         FI_NAME = "fimuobi1"
         ENVIRONMENT = "ist"
-		ANSUSER = "svuatanz"
-		ANSKEY = "/apps/infra_ansible/keys/svc_uat_anz/id_rsa"
+        ANSUSER = "svuatanz"
+        ANSKEY = "/apps/infra_ansible/keys/svc_uat_anz/id_rsa"
         DMGR = "'$FI_NAME'_dmgr"
         DB = "'$FI_NAME'_db"
         APP = "'$FI_NAME'_app"
         MQ = "'$FI_NAME'_mq"
         ACT = "'$FI_NAME'_actuate"
-		ACTMASTER = "'$FI_NAME'_actuate_master"
+        ACTMASTER = "'$FI_NAME'_actuate_master"
         JCS = "'$FI_NAME'_jcs"
         SCC = "'$FI_NAME'_scc"
-		HK = "'FI_NAME'_hk"
+        HK = "'FI_NAME'_hk"
         WEB = "'$FI_NAME'_web"
         ASSEMBLY = "'$FI_NAME'_assembly"
         //VARS_FILE = "'$ENVIRONMENT'_'$FI_NAME'.yml"
@@ -24,7 +24,7 @@ pipeline {
         UOBVER = '$UOB_VER'
         //RELEASENUM = '$RELEASE_NUM'
         //TAXPACKAGE = '$TAX_PACKAGE'
-		LOGLVL = '-vvvv'
+        LOGLVL = '-vvvv'
 
     }
     stages {
