@@ -1,0 +1,10 @@
+# to convert all text files from CRLF to LF
+* text=auto eol=lf
+
+# Define binary file attributes.
+# - Do not treat them as text.
+# - Include binary diff in patches instead of "binary files differ."
+*.gif     -text diff
+*.gz      -text diff
+*.jar     -text diff
+*.jpg     -text diff

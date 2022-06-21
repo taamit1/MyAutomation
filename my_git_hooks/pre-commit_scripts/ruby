@@ -1,0 +1,39 @@
+#!/bin/sh
+
+pass=true
+RED='\033[1;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+echo "Running Linters:"
+
+# Run rubocop and get the output and return code
+rubocop=$(docker-compose run --rm web rubocop)
+return_code=$?
+
+if [ $return_code != 0 ]; then
+	echo "$rubocop\n"
+	printf "\n${RED}Rubocop failed, not commit was made"
+	pass=false
+else
+	printf "${GREEN}Rubocop passed.${NC}\n"
+fi
+
+# Run reek and get the output and return code
+reek=$(docker-compose run --rm web reek)
+return_code=$?
+
+if [ $return_code != 0 ]; then
+	echo "$reek\n"
+	printf "\n${RED}Reek failed, not commit was made"
+	pass=false
+else
+	printf "${GREEN}Reek passed.${NC}\n"
+fi
+
+# If you reach this point, everything was cool and means you are a good player
+if $pass; then
+	exit 0
+fi
+
+exit 1

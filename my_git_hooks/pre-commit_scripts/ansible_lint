@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# Pre-commit hook that verifies if all ansible playbooks pass ansible-lint checks.
+# If they don't pass the lint tests, the commit will fail with an error.
+#
+# The file should be added .gitt/hooks/pre-commit.d/ and be executable.
+
+#FILES_PATTERN='./tasks/.*\.yaml$|./roles/.*\.yaml$|/tasks/.*\.yml$|/roles/.*\.yml$'
+#FILES_PATTERN='\.(yaml|yml)(\..+)?$'
+FILES_PATTERN='.*playbook|main.*\.*$|tasks\.(yaml|yml)(\..+)?$|roles\.(yaml|yml)(\..+)?$'
+EXCLUDE_VAULT='.*vault.*\.yml$'
+
+EXIT_STATUS=0
+wipe="\033[1m\033[0m"
+yellow='\033[1;33m'
+# carriage return hack. Leave it on 2 lines.
+cr='
+'
+for f in $(git diff --cached --name-only | grep -E $FILES_PATTERN | grep -vE $EXCLUDE_VAULT)
+do
+  ansible-lint -q $f > /dev/null 2>&1
+  if [ ! $? = 0 ]; then
+    # Build a list of files that failed (if any).
+    FILES_TO_LINT="$f$cr$FILES_TO_LINT"
+    EXIT_STATUS=1
+  fi
+done
+
+if [ ! $EXIT_STATUS = 0 ]; then
+  echo '# COMMIT REJECTED:'
+  echo '# Looks like syntax-checks failed for files that are part of the commit:'
+  echo '#'
+  while read -r line; do
+    if [ -n "$line" ]; then
+      echo "#\t${yellow}not linted:   $line${wipe}"
+    fi
+  done <<< "$FILES_TO_LINT"
+  echo '#'
+  echo "# Please lint them with 'ansible-lint <file>'"
+  exit $EXIT_STATUS
+fi
+exit $EXIT_STATUS
